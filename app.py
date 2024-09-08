@@ -23,7 +23,6 @@ def get_name(name: str):
 #    JSON data and return the predicted number of steps
 @app.post('/predict')
 def predict_steps(data: StepEstimator):
-    print(data)
     data = data.dict()
     # data = data.dict()
     gender=data['gender']
@@ -33,10 +32,9 @@ def predict_steps(data: StepEstimator):
     daily_activity=data['daily_activity']
 
     prediction = xgb_regressor.predict([[gender, age, height, weight, daily_activity]])
-    print(prediction)
 
     return {
-        'baseline_steps': prediction
+        'baseline_steps': prediction.astype(int).tolist()[0]
     }
 
 # 5. Run the API with uvicorn
